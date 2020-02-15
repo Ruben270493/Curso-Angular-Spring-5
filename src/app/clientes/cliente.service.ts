@@ -3,7 +3,7 @@ import { Cliente } from './cliente.js';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 
@@ -19,6 +19,12 @@ export class ClienteService {
 
   public getClientes():Observable<Cliente[]> {
     return this.http.get<Cliente[]>(this.urlEndPoint).pipe(
+      tap(response => {
+        let clientes = response as Cliente[];
+        clientes.forEach(cliente => {
+          console.log(cliente.nombre);
+        })
+      }),
       map(response => {
         let clientes = response as Cliente[];
         return clientes.map(cliente => {
