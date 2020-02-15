@@ -3,7 +3,7 @@ import { Cliente } from './cliente.js';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -17,8 +17,15 @@ export class ClienteService {
   constructor(private http:HttpClient, private router:Router) { }
 
   public getClientes():Observable<Cliente[]> {
-    //return of(CLIENTES);
-    return this.http.get<Cliente[]>(this.urlEndPoint);
+    return this.http.get<Cliente[]>(this.urlEndPoint).pipe(
+      map(response => {
+        let clientes = response as Cliente[];
+        return clientes.map(cliente => {
+          cliente.nombre = cliente.nombre.toUpperCase();
+          return cliente;
+        });
+      })
+    );
   }
 
   public create(cliente:Cliente):Observable<any> {
