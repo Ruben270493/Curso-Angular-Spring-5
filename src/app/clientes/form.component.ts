@@ -12,6 +12,7 @@ export class FormComponent implements OnInit {
 
   private cliente:Cliente = new Cliente();
   private titulo:string = "Crear cliente";
+  private errors:string[];
 
   constructor(
     private clienteService:ClienteService,
@@ -38,6 +39,9 @@ export class FormComponent implements OnInit {
       json => {
         this.router.navigate(['/clientes']);
         swal.fire('Nuevo cliente', `${json.mensaje}`,'success');
+      },
+      err => {
+        this.errors = err.error.errors as string[];
       }
     );
   }
