@@ -42,14 +42,20 @@ export class FormComponent implements OnInit {
       },
       err => {
         this.errors = err.error.errors as string[];
+        console.log(this.errors);
       }
     );
   }
 
   public update():void {
-    this.clienteService.update(this.cliente).subscribe(json => {
+    this.clienteService.update(this.cliente).subscribe(
+      json => {
         this.router.navigate(['/clientes']);
         swal.fire('Cliente Actualizado', `${json.mensaje}`,'success');
+      },
+      err => {
+        this.errors = err.error.errors as string[];
+        console.log(this.errors);
       }
     )
   }
