@@ -22,7 +22,12 @@ export class ClienteService {
   }
 
   public create(cliente:Cliente):Observable<Cliente> {
-    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers: this.httpHeaders});
+    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
+      catchError(e => {
+        Swal.fire(e.error.mensaje, e.error.error, 'error');
+        return throwError(e);
+      })
+    );
   }
 
   public getCliente(id):Observable<Cliente> {
@@ -36,11 +41,21 @@ export class ClienteService {
   }
 
   public update(cliente:Cliente):Observable<Cliente> {
-    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders});
+    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
+      catchError(e => {
+        Swal.fire(e.error.mensaje, e.error.error, 'error');
+        return throwError(e);
+      })
+    );
   }
 
   public delete(id:number):Observable<Cliente> {
-    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, {headers: this.httpHeaders});
+    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, {headers: this.httpHeaders}).pipe(
+      catchError(e => {
+        Swal.fire(e.error.mensaje, e.error.error, 'error');
+        return throwError(e);
+      })
+    );
   }
 
 }
