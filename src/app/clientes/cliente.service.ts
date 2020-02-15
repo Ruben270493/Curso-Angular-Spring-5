@@ -17,21 +17,20 @@ export class ClienteService {
 
   constructor(private http:HttpClient, private router:Router) { }
 
-  public getClientes():Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(this.urlEndPoint).pipe(
-      tap(response => {
-        let clientes = response as Cliente[];
-        clientes.forEach(cliente => {
+  public getClientes(page:number):Observable<any> {
+    return this.http.get<Cliente[]>(this.urlEndPoint + '/page/' + page).pipe(
+      tap((response:any) => {
+        (response.content as Cliente[]).forEach(cliente => {
           console.log(cliente.nombre);
         })
       }),
-      map(response => {
-        let clientes = response as Cliente[];
-        return clientes.map(cliente => {
+      map((response:any) => {
+        (response.content as Cliente[]).map(cliente => {
           cliente.nombre = cliente.nombre.toUpperCase();
           //cliente.createAt = formatDate(cliente.createAt, 'fullDate', 'es');
           return cliente;
         });
+        return response;
       })
     );
   }
