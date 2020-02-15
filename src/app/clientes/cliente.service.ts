@@ -21,8 +21,8 @@ export class ClienteService {
     return this.http.get<Cliente[]>(this.urlEndPoint);
   }
 
-  public create(cliente:Cliente):Observable<Cliente> {
-    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
+  public create(cliente:Cliente):Observable<any> {
+    return this.http.post<any>(this.urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
         Swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
@@ -40,8 +40,8 @@ export class ClienteService {
     );
   }
 
-  public update(cliente:Cliente):Observable<Cliente> {
-    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
+  public update(cliente:Cliente):Observable<any> {
+    return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
         Swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
