@@ -1,4 +1,4 @@
-<ul class="alert alert-danger" *ngIf="errores?.length > 0">
+<ul class="alert alert-danger" *ngIf="errors?.length > 0">
     <li *ngFor="let err of errors">{{ err }}</li>
 </ul>
 <div class="card bg-dark text-white my-3">
@@ -18,10 +18,9 @@
             <div class="form-group row">
                 <label for="apellido" class="col-form-label col-sm-2">Apellido</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" [(ngModel)]="cliente.apellido" name="apellido" required minlength="4" #apellido="ngModel">
+                    <input type="text" class="form-control" [(ngModel)]="cliente.apellido" name="apellido" required #apellido="ngModel">
                     <div class="text-danger" *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
                         <small *ngIf="apellido.errors.required">El apellido es obligatorio</small>
-                        <small *ngIf="apellido.errors.minlength">El apellido debe tener minimo cuatro caracteres</small>
                     </div>
                 </div>
             </div>
@@ -33,6 +32,14 @@
                         <small *ngIf="email.errors.required">El email es obligatorio</small>
                         <small *ngIf="email.errors.email">El email debe tener un formato valido: aa@aa</small>
                     </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="createAt" class="col-form-label col-sm-2">Fecha</label>
+                <div class="col-sm-6">
+                    <input [matDatepicker]="createAt" class="form-control" [(ngModel)]="cliente.createAt" name="createAt" style="display: inline; width: 300px;">
+                    <mat-datepicker-toggle [for]="createAt"></mat-datepicker-toggle>
+                    <mat-datepicker #createAt></mat-datepicker>
                 </div>
             </div>
             <div class="form-group row">
